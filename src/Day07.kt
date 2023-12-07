@@ -52,7 +52,7 @@ fun main() {
     }
 
     val comparator = Comparator(false)
-    val sortedCards = cards.sortedBy { comparator.cardScore(it) }.sortedWith(comparator::cmp).reversed()
+    val sortedCards = cards.sortedWith(comparator::cmp).reversed()
     var totalWinnings = 0
     for (i in sortedCards.indices) {
         val card = sortedCards[i]
@@ -61,7 +61,7 @@ fun main() {
     println("Part 1: $totalWinnings")
 
     val comparatorJoker = Comparator(true)
-    val sortedJokersCards = cards.sortedBy { comparatorJoker.cardScore(it) }.sortedWith(comparatorJoker::cmp).reversed()
+    val sortedJokersCards = cards.sortedWith(comparatorJoker::cmp).reversed()
     totalWinnings = 0
     for (i in sortedJokersCards.indices) {
         val card = sortedJokersCards[i]
