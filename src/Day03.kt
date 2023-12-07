@@ -39,8 +39,17 @@ fun main() {
                 }
             }
             sum += adjacentNumbers.sum()
-            if (symbol == '*' && adjacentNumbers.size == 2)
+            if (symbol == '*' && adjacentNumbers.size == 2) {
+                fun fn(accumulator: Int, x: Int): Int {
+                    return accumulator + x
+                }
                 gearRatioSum += adjacentNumbers.reduce { acc, i -> acc * i }
+                gearRatioSum += adjacentNumbers.reduce( {accumulator: Int, x: Int -> accumulator + x} )
+                gearRatioSum += adjacentNumbers.reduce(::fn)
+                val cb = {acc: Int, x: Int -> acc + x}
+                gearRatioSum += adjacentNumbers.reduce(cb)
+
+            }
         }
 
     }
