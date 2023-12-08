@@ -32,24 +32,7 @@ fun main() {
     val stepCount = followInstruction("AAA") { node -> node == "ZZZ" }
     println("Part 1: $stepCount")
 
-    val curNodes = map.keys.filter { it.endsWith("A") }
-
-    /*
-    fun areNodesOnZ(): Boolean {
-        return curNodes.all { it.endsWith("Z") }
-    }
-    var insIdx = 0
-    var stepCount1 = 0
-    while (!areNodesOnZ()) {
-        val dir =  instruction[insIdx]
-        if (dir == 'L') curNodes = curNodes.map { map[it]!!.left }
-        else if (dir == 'R') curNodes = curNodes.map { map[it]!!.right }
-
-        insIdx = (insIdx + 1) % instruction.length
-        stepCount1++
-    }
-     */
-    val stepsRequired = curNodes.map { followInstruction(it) { node -> node.endsWith("Z") } }
+    val startNodes = map.keys.filter { it.endsWith("A") }
 
     fun gcd(numA: Long, numB: Long): Long {
         var a = numA
@@ -65,9 +48,36 @@ fun main() {
         return a * (b / gcd(a, b))
     }
 
-    // This only works, since there are no more ends with Z after reaching
-    // the first node with Z one.
-    println("Part2: ${stepsRequired.reduce { acc, i -> lcm(acc, i) }}")
+    fun findEndNodes(startNode: String): List<Long> {
+        var curNode = startNode
+
+        data class Step(val node: String, val ins: Char)
+        val visited = HashSet<Step>()
+        val counts = ArrayList<Long>()
+
+        var stepCount = 0L
+        var insIdx = 0
+        while (true) {
+            val dir = instruction[insIdx]
+            if (dir == 'R') {
+                curNode = map[curNode]!!.right
+            } else if (dir == 'L') {
+                curNode = map[curNode]!!.left
+            }
+            if (curNode.endsWith("Z")) {
+                val step = Step(curNode, dir);
+                if (visited.contains(step)) break
+                counts.add(stepCount + 1)
+                visited.add(step)
+            }
+            stepCount++
+            insIdx = (insIdx + 1) % instruction.length
+        }
+        return counts
+    }
+
+    val stepsRequired = startNodes.map { findEndNodes(it) }.reduce { acc, longs -> acc + longs }
+    println("Part 2: ${stepsRequired.reduce { acc, i -> lcm(acc, i)}}")
 
 
 
