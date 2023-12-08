@@ -65,6 +65,8 @@ fun main() {
         return a * (b / gcd(a, b))
     }
 
+    // This only works, since there are no more ends with Z after reaching
+    // the first node with Z one.
     println("Part2: ${stepsRequired.reduce { acc, i -> lcm(acc, i) }}")
 
 
