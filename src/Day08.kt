@@ -48,7 +48,7 @@ fun main() {
     }
 
     val startNodes = map.keys.filter { it.endsWith("A") }
-    val stepsRequired = startNodes.map { followInstruction(it) { it.endsWith("Z") } }
+    val stepsRequired = startNodes.map { followInstruction(it) { node -> node.endsWith("Z") } }
     println("Part 2: ${stepsRequired.reduce { acc, i -> lcm(acc, i)}}")
 
 
