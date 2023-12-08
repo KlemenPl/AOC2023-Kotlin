@@ -32,7 +32,6 @@ fun main() {
     val stepCount = followInstruction("AAA") { node -> node == "ZZZ" }
     println("Part 1: $stepCount")
 
-    val startNodes = map.keys.filter { it.endsWith("A") }
 
     fun gcd(numA: Long, numB: Long): Long {
         var a = numA
@@ -48,35 +47,8 @@ fun main() {
         return a * (b / gcd(a, b))
     }
 
-    fun findEndNodes(startNode: String): List<Long> {
-        var curNode = startNode
-
-        data class Step(val node: String, val ins: Char)
-        val visited = HashSet<Step>()
-        val counts = ArrayList<Long>()
-
-        var stepCount = 0L
-        var insIdx = 0
-        while (true) {
-            val dir = instruction[insIdx]
-            if (dir == 'R') {
-                curNode = map[curNode]!!.right
-            } else if (dir == 'L') {
-                curNode = map[curNode]!!.left
-            }
-            if (curNode.endsWith("Z")) {
-                val step = Step(curNode, dir);
-                if (visited.contains(step)) break
-                counts.add(stepCount + 1)
-                visited.add(step)
-            }
-            stepCount++
-            insIdx = (insIdx + 1) % instruction.length
-        }
-        return counts
-    }
-
-    val stepsRequired = startNodes.map { findEndNodes(it) }.reduce { acc, longs -> acc + longs }
+    val startNodes = map.keys.filter { it.endsWith("A") }
+    val stepsRequired = startNodes.map { followInstruction(it) { it.endsWith("Z") } }
     println("Part 2: ${stepsRequired.reduce { acc, i -> lcm(acc, i)}}")
 
 
