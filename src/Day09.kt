@@ -2,14 +2,7 @@ fun main() {
     val lines = get_input(9)
     val nums = lines.map { it.split(" ").map { it.toInt() } }
 
-    fun getDiff(array: List<Int>): List<Int> {
-        val diff = IntArray(array.size - 1)
-
-        for (i in 0 until array.size - 1) {
-            diff[i] = array[i + 1] - array[i]
-        }
-        return diff.toList()
-    }
+    fun getDiff(array: List<Int>) = array.zipWithNext { a, b -> b - a }
 
     fun findNextNum(array: List<Int>): Pair<Int, Int> {
         var diff = getDiff(array)
