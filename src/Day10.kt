@@ -1,5 +1,3 @@
-import kotlin.math.max
-
 typealias Pos = Pair<Int, Int>
 
 fun main() {
@@ -66,7 +64,6 @@ fun main() {
             mainLoop = currLoop
         }
     }
-
     println("Part 1: $maxDst")
 
     var enclosedCount = 0
@@ -95,60 +92,6 @@ fun main() {
             val (x, y) = start
             val isEnclosed = countLoopTiles(x, y, -1, 0) % 2 == 1
             if (isEnclosed) enclosedCount++
-
-
-            // Flood fill
-            /*
-            val q = ArrayDeque<Pos>()
-            q.addLast(start)
-
-            val visited = HashSet<Pos>()
-            var isEnclosed = true
-            if (start == Pair(3, 2)) {
-                println("yi")
-            }
-            while (q.isNotEmpty()) {
-                val curPos = q.removeFirst()
-                val (x, y) = curPos
-                // Touching boundary?
-                if (x < 0 || x >= sizeX || y < 0 || y >= sizeY) {
-                    isEnclosed = false
-                    break
-                }
-                if (mainLoop.contains(curPos)) {
-                }
-                // Touching non-loop pipes
-                //val tile = lines[y][x]
-                //if (tile != '.' && !mainLoop.contains(curPos)) {
-                //    isEnclosed = false
-                //    break
-                //} else if (tile != '.') {
-                //    //continue
-                //}
-                visited.add(curPos)
-
-                for (dY in -1..1) {
-                    for (dX in -1..1) {
-                        val newX = x + dX
-                        val newY = y + dY
-                        val newPos = Pos(newX, newY)
-                        if (visited.contains(newPos)) continue
-                        if (mainLoop.contains(newPos)) continue
-                        q.addLast(newPos)
-                    }
-                }
-            }
-
-            if (isEnclosed) {
-                // We found enclosed nest
-                println(visited)
-                println(q.isEmpty())
-                println(isEnclosed)
-                enclosed.addAll(visited)
-
-            }
-             */
-
         }
     }
 
