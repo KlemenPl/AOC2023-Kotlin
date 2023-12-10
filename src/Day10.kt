@@ -81,7 +81,7 @@ fun main() {
                 var y = startY
                 var count = 0
 
-                while (x >= 0 && x < sizeX && y >= 0 && y < sizeY) {
+                while (x in 0 until sizeX && y in 0 until sizeY) {
                     val pos = Pos(x, y)
                     val tile = lines[y][x]
                     if (mainLoop.contains(pos) && "|JLS".contains(tile)) count++
