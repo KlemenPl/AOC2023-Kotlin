@@ -7,6 +7,9 @@ fun main() {
     fun findNextNum(array: List<Int>): Pair<Int, Int> {
         var diff = getDiff(array)
 
+        val a = diff[0..6 step 2 ]
+        println(a)
+
         val diffs = ArrayList<List<Int>>()
         diffs.add(array)
 
@@ -37,3 +40,8 @@ fun main() {
     println("Part 2: $prevNumSum")
 
 }
+
+private operator fun <E> List<E>.get(es: Iterable<Int>): List<E> {
+    return this.filterIndexed { index: Int, e -> es.contains(index) }
+}
+
