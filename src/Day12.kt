@@ -1,5 +1,3 @@
-import java.math.BigInteger
-
 fun main() {
     val lines = get_input(12)
 
