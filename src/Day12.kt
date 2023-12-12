@@ -19,48 +19,38 @@ fun main() {
         if (inputIdx >= input.length)
             return 0
 
-        fun canBeDamaged(inputIdx: Int, numDamaged: Int): Boolean {
+        fun canBeDamaged(): Boolean {
+            val numDamaged = damaged[damagedIdx]
             if (input.length < inputIdx + numDamaged) return false
             for (i in 0..<numDamaged) {
                 if (input[inputIdx + i] == '.') return false
             }
             return true
         }
+        fun takeGroup() = getNumCombinations(input, damaged, inputIdx + damaged[damagedIdx], damagedIdx + 1, true)
 
         val cur = input[inputIdx]
+        var ret = 0L
 
         // Nothing to be done
         if (cur == '.') {
-            val ret = getNumCombinations(input, damaged, inputIdx + 1, damagedIdx)
-            memo[key] = ret
-            return ret
-        } else if (cur == '#') {
-            if (damagedIdx >= damaged.size) return 0
-            if (needsSpace) return 0
-            val numDamaged = damaged[damagedIdx]
+            ret = getNumCombinations(input, damaged, inputIdx + 1, damagedIdx)
+        }
+        if (cur == '#') {
             // Invalid state
-            if (!canBeDamaged(inputIdx, numDamaged)) return 0
-            val newInputIdx = inputIdx + damaged[damagedIdx]
-            val ret = getNumCombinations(input, damaged, newInputIdx, damagedIdx + 1, true)
-            memo[key] = ret
-            return ret
+            if (damagedIdx >= damaged.size || needsSpace || !canBeDamaged())
+                return 0
+            ret = takeGroup()
         }
         if (cur == '?') {
             val numOperational = getNumCombinations(input, damaged, inputIdx + 1, damagedIdx)
-            if (needsSpace) {
-                memo[key] = numOperational
-                return numOperational
-            }
-            if (damagedIdx >= damaged.size) return numOperational
-            if (!canBeDamaged(inputIdx, damaged[damagedIdx])) return numOperational
-            val newInputIdx = inputIdx + damaged[damagedIdx]
-            val numDamaged = getNumCombinations(input, damaged, newInputIdx, damagedIdx + 1, true)
-            val ret = numOperational + numDamaged
-            memo[key] = ret
-            return ret
-
+            if (needsSpace || damagedIdx >= damaged.size || !canBeDamaged())
+                ret = numOperational
+            else
+                ret = numOperational + takeGroup()
         }
-        return 0
+        memo[key] = ret
+        return ret
     }
 
     fun unfoldSpring(spring: String, n: Int): String {
