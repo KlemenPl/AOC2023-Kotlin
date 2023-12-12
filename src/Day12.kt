@@ -40,8 +40,8 @@ fun main() {
             val numDamaged = damaged[damagedIdx]
             // Invalid state
             if (!canBeDamaged(inputIdx, numDamaged)) return 0
-            val newInput = inputIdx + damaged[damagedIdx]
-            val ret = getNumCombinations(input, damaged, newInput, damagedIdx + 1, true)
+            val newInputIdx = inputIdx + damaged[damagedIdx]
+            val ret = getNumCombinations(input, damaged, newInputIdx, damagedIdx + 1, true)
             memo[key] = ret
             return ret
         }
@@ -53,8 +53,8 @@ fun main() {
             }
             if (damagedIdx >= damaged.size) return numOperational
             if (!canBeDamaged(inputIdx, damaged[damagedIdx])) return numOperational
-            val inputIdx = inputIdx + damaged[damagedIdx]
-            val numDamaged = getNumCombinations(input, damaged, inputIdx, damagedIdx + 1, true)
+            val newInputIdx = inputIdx + damaged[damagedIdx]
+            val numDamaged = getNumCombinations(input, damaged, newInputIdx, damagedIdx + 1, true)
             val ret = numOperational + numDamaged
             memo[key] = ret
             return ret
