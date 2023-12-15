@@ -26,8 +26,8 @@ fun main() {
 
     for (seq in initSequence) {
         val op = if (seq.contains('-')) '-' else '='
-        val label = seq.split(op)[0]
-        val strength = seq.substring(label.length + 1)
+        val (label, strength) = seq.split(op)
+
         val boxIdx = hashString(label)
         val box = boxes[boxIdx]
 
