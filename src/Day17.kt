@@ -23,6 +23,21 @@ fun main() {
         val finishX = sizeX - 1
         val finishY = sizeY - 1
 
+        fun isValidDirection(node: Node, dirIdx: Int): Boolean {
+            // Can't repeat
+            if (dirIdx == node.lastDir)
+                return false
+            val dir = DIRS[dirIdx]
+            if (node.lastDir != -1) {
+                val prevDir = DIRS[node.lastDir]
+                // Cant move back
+                if (dir.first == -prevDir.first && dir.second == 0 ||
+                    dir.second == -prevDir.second && dir.first == 0)
+                    return false
+            }
+            return true
+        }
+
         while (pq.isNotEmpty()) {
             val node = pq.poll()
             val nodeKey = Triple(node.x, node.y, node.lastDir)
@@ -34,17 +49,10 @@ fun main() {
                 return node.cost
             }
             for (dirIdx in DIRS.indices) {
-                // Cant repeat same direction
-                if (dirIdx == node.lastDir)
+                if (!isValidDirection(node, dirIdx))
                     continue
                 val dir = DIRS[dirIdx]
-                if (node.lastDir != -1) {
-                    val prevDir = DIRS[node.lastDir]
-                    // Cant move back
-                    if (dir.first == -prevDir.first && dir.second == 0 ||
-                        dir.second == -prevDir.second && dir.first == 0)
-                        continue
-                }
+
                 for (dst in minDst..maxDst) {
                     val adjX = node.x + dir.first * dst
                     val adjY = node.y + dir.second * dst
@@ -70,6 +78,4 @@ fun main() {
 
     println("Part 1: ${calculateHeatLoss(1, 3)}")
     println("Part 2: ${calculateHeatLoss(4, 10)}")
-
-
 }
